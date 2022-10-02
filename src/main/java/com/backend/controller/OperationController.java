@@ -1,6 +1,8 @@
 package com.backend.controller;
 
+import com.backend.data.payload.request.SaveLocation;
 import com.backend.data.payload.request.SaveUpdateUserData;
+import com.backend.data.service.LocationService;
 import com.backend.data.service.UserService;
 import com.backend.utility.ResponseHandler;
 import lombok.RequiredArgsConstructor;
@@ -23,24 +25,30 @@ public class OperationController {
     @Autowired
     UserService userServObj;
 
-    @GetMapping("/find")
-    public String printFind(@RequestParam String ram){
-        log.info("Inside saveUpdateUserData  "+ram);
-        System.out.println("Inside saveUpdateUserData");
-        return "ram";
-    }
+    @Autowired
+    LocationService userLocationObj;
 
     @PostMapping("/saveUpdateUserData")
     public ResponseEntity<?> saveUpdateUserData(@RequestBody SaveUpdateUserData saveUpdateUserDataObj){
-        System.out.println("Inside saveUpdateUserData");
         log.info("Inside saveUpdateUserData  "+saveUpdateUserDataObj.getUserId());
         try{
-            log.info("Inside saveUpdateUserData  "+saveUpdateUserDataObj.getUserId());
             Boolean retVal=userServObj.saveUserDetails(saveUpdateUserDataObj);
             log.info("Save Data return value  "+retVal);
             return ResponseHandler.generateResponse(HttpStatus.OK, true, "User Details Saved Successfully", null);
         }catch(Exception e){
             return ResponseHandler.generateResponse(HttpStatus.OK, false, "Exception Occurred while saving User Data", null);
+        }
+    }
+
+    @PostMapping("/saveUserLocation")
+    public ResponseEntity<?> saveUserLocation(@RequestBody SaveLocation saveLocationObj){
+        log.info("Inside saveUserLocation  "+saveLocationObj.getUserId());
+        try{
+            Boolean retVal=userLocationObj.saveUserLocation(saveLocationObj);
+            log.info("Save location return value  "+retVal);
+            return ResponseHandler.generateResponse(HttpStatus.OK, true, "User Location Saved Successfully", null);
+        }catch(Exception e){
+            return ResponseHandler.generateResponse(HttpStatus.OK, false, "Exception Occurred while saving user location", null);
         }
     }
 }
