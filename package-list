@@ -1,0 +1,9 @@
+com.backend
+com.backend.controller
+com.backend.data.model
+com.backend.data.payload.request
+com.backend.data.repository
+com.backend.data.service
+com.backend.data.serviceImpl
+com.backend.security
+com.backend.utility
