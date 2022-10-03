@@ -19,11 +19,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean saveUserDetails(SaveUpdateUserData saveData) {
+        try{
         log.info("Inside SaveUSerDetails IMPL");
         UserDetails userDetails = new UserDetails();
-        if(userRepository.existsById(saveData.getUserId())){
-            userDetails=userRepository.getById(saveData.getUserId());
-        }
         userDetails.setUserId(saveData.getUserId());
         userDetails.setEmail(saveData.getEmail());
         userDetails.setCreatedOn(saveData.getCreatedOn());
@@ -32,5 +30,14 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userDetails);
         log.info("User Details Saved Successfully");
         return true;
+    }catch(Exception e){
+        log.info("Exception Occurred while saving User Location in Location IMPL "+e.toString());
+        return false;
+    }
+    }
+
+    @Override
+    public UserDetails getUserLatestLocation(String userId){
+        return userRepository.getUserByLatestLocation(userId);
     }
 }

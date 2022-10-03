@@ -16,7 +16,7 @@ public class UserDetails {
     @Column(name = "user_id")
     private String userId;
 
-    @Column(name="created_on")
+    @Column(name="created_on", columnDefinition = "TIMESTAMP")
     private LocalDateTime createdOn;
 
     @Column(name="email")
@@ -29,7 +29,7 @@ public class UserDetails {
     private String secondName;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "userDetails", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("user")
+    @JsonIgnoreProperties("userDetails")
     private List<UserLocations> locationList = new ArrayList<>();
 
     public String getUserId() {

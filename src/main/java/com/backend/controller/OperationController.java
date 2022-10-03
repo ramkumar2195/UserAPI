@@ -1,5 +1,6 @@
 package com.backend.controller;
 
+import com.backend.data.payload.request.GetLocationBetweenRange;
 import com.backend.data.payload.request.SaveLocation;
 import com.backend.data.payload.request.SaveUpdateUserData;
 import com.backend.data.service.LocationService;
@@ -42,13 +43,31 @@ public class OperationController {
 
     @PostMapping("/saveUserLocation")
     public ResponseEntity<?> saveUserLocation(@RequestBody SaveLocation saveLocationObj){
-        log.info("Inside saveUserLocation  "+saveLocationObj.getUserId());
         try{
             Boolean retVal=userLocationObj.saveUserLocation(saveLocationObj);
             log.info("Save location return value  "+retVal);
             return ResponseHandler.generateResponse(HttpStatus.OK, true, "User Location Saved Successfully", null);
         }catch(Exception e){
             return ResponseHandler.generateResponse(HttpStatus.OK, false, "Exception Occurred while saving user location", null);
+        }
+    }
+
+
+    @GetMapping("/getUserLatestLocation")
+    public ResponseEntity<?> getUserLatestLocation(@RequestParam String userId) {
+        try {
+            return ResponseHandler.generateResponse(HttpStatus.OK, true, "User Latest Location Retrieved Successfully", userServObj.getUserLatestLocation(userId));
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse(HttpStatus.OK, false, "Error in Retrieval Price User Latest Location", null);
+        }
+    }
+
+    @PostMapping("/getUserLocationbetweenRange")
+    public ResponseEntity<?> getUserLocationbetweenRange(@RequestBody GetLocationBetweenRange dateObj) {
+        try {
+            return ResponseHandler.generateResponse(HttpStatus.OK, true, "User Location Retrieved Successfully", userLocationObj.getByCreatedOnBetween(dateObj));
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse(HttpStatus.OK, false, "Error in Retrieval User Location", null);
         }
     }
 }

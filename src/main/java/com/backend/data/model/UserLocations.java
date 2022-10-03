@@ -11,10 +11,11 @@ import java.time.LocalDateTime;
 public class UserLocations {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
     private Integer id;
 
-    @Column(name="created_on")
+    @Column(name="created_on", columnDefinition = "TIMESTAMP")
     private LocalDateTime createdOn;
 
     @Column(name="latitude")
